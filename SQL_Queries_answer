@@ -1,0 +1,63 @@
+# SQL Queries answer
+-- Count the total number of cars in the database.
+SELECT count(model) AS nbr_cars
+FROM autoscout_car_sales_cleaned;
+
+-- Find the car with the highest price.
+SELECT *
+FROM autoscout_car_sales_cleaned
+WHERE price = (SELECT MAX(price) FROM autoscout_car_sales_cleaned);
+
+-- Calculate the average price of cars by brand.
+SELECT brand, AVG(price)
+FROM autoscout_car_sales_cleaned
+GROUP BY brand;
+
+-- Display the top 10 cars with the highest mileage (km).
+SELECT *
+FROM autoscout_car_sales_cleaned
+ORDER BY km DESC
+LIMIT 10;
+
+-- Count how many cars use Diesel fuel.
+SELECT COUNT(*)
+FROM autoscout_car_sales_cleaned
+WHERE fuel = "Diesel";
+
+-- Display all cars over 5 years old with less than 50,000 km.
+SELECT *
+FROM autoscout_car_sales_cleaned
+WHERE year < (YEAR(CURDATE()) - 5) AND km < 50000;
+
+-- Provide the distribution of transmission types (gearing_type) in the database.
+SELECT gearing_type, COUNT(*)
+FROM autoscout_car_sales_cleaned
+GROUP BY gearing_type;
+
+-- Display the price distribution by brand and body type.
+SELECT brand, body_type, AVG(price) AS average_price
+FROM autoscout_car_sales_cleaned
+GROUP BY brand, body_type;
+
+-- Find the average engine power (hp_kw) of Diesel cars and compare it with gasoline cars.
+SELECT model, fuel, AVG(hp_kw)
+FROM autoscout_car_sales_cleaned
+WHERE fuel IN ('Diesel', 'Gasoline')
+GROUP BY model;
+
+-- Display cars with a power-to-weight ratio (hp_kw / weight_kg) greater than 0.1.
+SELECT model, hp_kw / weight_kg AS power_ratio
+FROM autoscout_car_sales_cleaned
+WHERE hp_kw / weight_kg > 0.1 AND hp_kw IS NOT NULL AND weight_kg IS NOT NULL;
+
+-- Display the newest cars (by age) per brand with a price below the average.
+SELECT brand, model, year, price
+FROM autoscout_car_sales_cleaned AS r1
+WHERE price < (SELECT AVG(price) FROM autoscout_car_sales_cleaned) 
+AND year = (SELECT MAX(year) FROM autoscout_car_sales_cleaned AS r2 WHERE r1.brand = r2.brand)
+ORDER BY year DESC;
+
+-- Display cars with less than 100,000 km but more than 3 previous owners.
+SELECT model, km, previous_owners
+FROM autoscout_car_sales_cleaned
+WHERE km < 100000 AND previous_owners > 3;
