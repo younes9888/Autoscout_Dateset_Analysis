@@ -1,5 +1,5 @@
 # Autoscout_Dateset_Analysis
-Python,SQL,Power BI to analyse Autoscout dataset
+Python,SQL to analyse Autoscout dataset
 
 ## Project Overview
 
@@ -15,8 +15,7 @@ The following tools were employed to handle data cleaning, analysis, and visuali
 
     Python: Data cleaning and initial exploration.
     MySQL: SQL queries for in-depth data analysis.
-    PowerBI: Interactive reporting and data visualization.
-
+    
 ## Data Cleaning and Preparation
 
 In the initial data preparation phase, Python was utilized for:
